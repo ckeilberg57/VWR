@@ -48,6 +48,9 @@
             border-radius: 4px;
             cursor: pointer;
         }
+        .btn.green {
+            background-color: #28a745;
+        }
         .btn:disabled {
             background-color: #ccc;
             cursor: not-allowed;
@@ -100,7 +103,9 @@
             // Simulate audio and video check
             alert("Performing audio and video check...");
             // Enable join button after check
-            document.getElementById("joinButton").disabled = false;
+            var joinButton = document.getElementById("joinButton");
+            joinButton.disabled = false;
+            joinButton.classList.add("green");
         }
 
         function joinMeeting() {
