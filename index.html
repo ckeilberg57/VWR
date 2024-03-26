@@ -23,16 +23,8 @@
 
     <script>
         function showConsentForm() {
-            const name = document.getElementById("name").value.trim();
-            if (name !== "") {
-                // Construct the URL with the extracted name
-                const conference = "apptMD" + Math.floor(1000000000 + Math.random() * 9000000000);
-                const url = `https://example.com/webapp3/?name=${encodeURIComponent(name)}&conference=${conference}`;
-                // Redirect to the constructed URL
-                window.location.href = url;
-            } else {
-                alert("Please enter your name.");
-            }
+            document.getElementById("consentButton").style.display = "none"; // Hide the consent button
+            document.getElementById("consentFrame").style.display = "block"; // Show the consent form iframe
         }
     </script>
 </body>
