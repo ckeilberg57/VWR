@@ -74,10 +74,25 @@
     </div>
 
     <script>
+        function generateConferenceID() {
+            // Generate a random 8-digit number
+            return "apptMD" + Math.floor(10000000 + Math.random() * 90000000);
+        }
+
         function joinMeeting() {
-            // Simulate joining the meeting
-            // You can replace this with your actual logic to launch Pexip Virtual Meeting Room
-            alert("Launching Pexip Virtual Meeting Room...");
+            var name = document.getElementById("name").value.trim();
+            if (name === "") {
+                alert("Please enter your name.");
+                return;
+            }
+            var conferenceID = generateConferenceID();
+            var url = "https://example.com/webapp3/step-by-step?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID) + "&role=guest";
+            // Open the URL in a new tab/window
+            window.open(url, "_blank");
+            // Display waiting message
+            document.getElementById("waitingMessage").style.display = "block";
+            // Disable the join button after clicking
+            document.getElementById("joinButton").disabled = true;
         }
     </script>
 </body>
