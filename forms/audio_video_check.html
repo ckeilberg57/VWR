@@ -133,6 +133,15 @@
                 const joinButton = document.getElementById('joinButton');
                 joinButton.disabled = false;
 
+                // Add a new button labeled "Confirmed"
+                const confirmedButton = document.createElement('button');
+                confirmedButton.className = 'btn green';
+                confirmedButton.textContent = 'Confirmed';
+                confirmedButton.onclick = function() {
+                    alert('Audio and video confirmed!');
+                };
+                document.querySelector('.btn-container').appendChild(confirmedButton);
+
             } catch (error) {
                 console.error('Error accessing media devices:', error);
             }
