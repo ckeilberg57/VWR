@@ -169,14 +169,10 @@
             }
             var conferenceID = generateConferenceID();
             var url = "https://example.com/webapp3/?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID);
-            // Open the URL in a new tab/window
             window.open(url, "_blank");
-            // Display waiting message
-            document.getElementById("waitingMessage").style.display = "block";
         }
 
         function generateConferenceID() {
-            // Generate a random 8-digit number
             return "apptMD" + Math.floor(10000000 + Math.random() * 90000000);
         }
     </script>
