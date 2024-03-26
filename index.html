@@ -22,9 +22,13 @@
     </div>
 
     <script>
+        var userName; // Global variable to store the user's name
+
         function showConsentForm() {
-            document.getElementById("consentButton").style.display = "none"; // Hide the consent button
-            document.getElementById("consentFrame").style.display = "block"; // Show the consent form iframe
+            userName = document.getElementById("name").value; // Store the user's name
+            document.getElementById("consentButton").style.display = "none";
+            document.getElementById("consentFrame").style.display = "block";
+            document.getElementById("consentFrame").contentWindow.postMessage(userName, "*"); // Pass name to consent frame
         }
     </script>
 </body>
