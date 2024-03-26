@@ -51,7 +51,7 @@
       cursor: not-allowed;
   }
   .btn:hover {
-      background-color: #00DD04;
+      background-color: green;
   }
   iframe {
       display: none; /* Hide the iframe initially */
