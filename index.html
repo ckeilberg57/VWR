@@ -48,6 +48,10 @@
             border-radius: 4px;
             cursor: pointer;
         }
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
         .btn:hover {
             background-color: #0056b3;
         }
@@ -61,15 +65,18 @@
             <input type="text" id="name" placeholder="Your Name">
         </div>
         <div class="form-group">
-            <label>Patient Check In</label><br>
-            <button id="consentDocument" class="btn">Consent to Consultation</button>
-            <button id="audiovideoCheck" class="btn">Audio and Video Check</button>
+            <label for="consentDocument">Consent Document:</label><br>
+            <button id="consentDocument" class="btn" onclick="reviewConsent()">Review Consent</button>
+        </div>
+        <div class="form-group">
+            <label for="audiovideoCheck">Audio & Video Check:</label><br>
+            <button id="audiovideoCheck" class="btn" onclick="audioVideoCheck()">Check Audio & Video</button>
         </div>
         <div id="waitingMessage" style="display:none;">
             <p>Please wait. Your provider will join the session shortly.</p>
         </div>
         <div id="joinButtonDiv">
-            <button id="joinButton" class="btn" onclick="joinMeeting()">Join Meeting</button>
+            <button id="joinButton" class="btn" onclick="joinMeeting()" disabled>Join Meeting</button>
         </div>
     </div>
 
@@ -77,6 +84,23 @@
         function generateConferenceID() {
             // Generate a random 8-digit number
             return "apptMD" + Math.floor(10000000 + Math.random() * 90000000);
+        }
+
+        function reviewConsent() {
+            // Open consent document in iframe
+            var consentFrame = document.createElement("iframe");
+            consentFrame.src = "https://example.com/consent.txt";
+            consentFrame.width = "100%";
+            consentFrame.height = "400px";
+            consentFrame.style.border = "1px solid #ccc";
+            document.body.appendChild(consentFrame);
+        }
+
+        function audioVideoCheck() {
+            // Simulate audio and video check
+            alert("Performing audio and video check...");
+            // Enable join button after check
+            document.getElementById("joinButton").disabled = false;
         }
 
         function joinMeeting() {
