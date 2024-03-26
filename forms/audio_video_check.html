@@ -82,6 +82,7 @@
         let audioIndicator;
         let patientImage;
         let originalWidth = 0; // Store original width of the audio indicator
+        let confirmedButtonAdded = false;
 
         async function testAudioAndVideo() {
             try {
@@ -111,9 +112,10 @@
                     const width = Math.max(0, Math.min(average, 255)); // Limit width between 0 and 255
                     audioIndicator.style.width = (width * 2) + 'px'; // Double the width
 
-                    // If audio and video are confirmed, add "Confirmed" button
-                    if (width > 0 && document.getElementById('videoElement').videoWidth > 0) {
+                    // If audio and video are confirmed and the button hasn't been added yet, add "Confirmed" button
+                    if (width > 0 && document.getElementById('videoElement').videoWidth > 0 && !confirmedButtonAdded) {
                         addConfirmedButton();
+                        confirmedButtonAdded = true; // Set the flag to true
                     }
                 }
                 updateAudioIndicator();
