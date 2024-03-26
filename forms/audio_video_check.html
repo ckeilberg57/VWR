@@ -31,10 +31,10 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
+            width: 0%;
             height: 5px;
             background-color: green;
-            transition: height 0.1s ease-in-out;
+            transition: width 0.1s ease-in-out;
         }
         .btn {
             display: inline-block;
@@ -62,7 +62,7 @@
         <video id="videoElement" autoplay playsinline muted></video>
         <div id="audioIndicator"></div>
     </div>
-    <button id="testButton" class="btn" onclick="testMicrophone()">Test Microphone</button>
+    <button id="testButton" class="btn" onclick="testMicrophone()">Test Audio and Video</button>
     <button id="proceedButton" class="btn" onclick="proceed()">Proceed</button>
 
     <script>
@@ -92,8 +92,8 @@
                     requestAnimationFrame(updateAudioIndicator);
                     analyser.getByteFrequencyData(dataArray);
                     const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
-                    const height = Math.max(5, Math.min(average, 255) / 2); // Limit height between 5 and 255
-                    audioIndicator.style.height = height + 'px';
+                    const width = Math.max(0, Math.min(average, 255) / 2); // Limit width between 0 and 100
+                    audioIndicator.style.width = width + '%';
                 }
                 updateAudioIndicator();
 
