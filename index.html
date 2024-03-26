@@ -22,13 +22,9 @@
     </div>
 
     <script>
-        var userName;
-
         function showConsentForm() {
-            userName = document.getElementById("name").value;
-            document.getElementById("consentButton").style.display = "none";
-            document.getElementById("consentFrame").style.display = "block";
-            document.getElementById("consentFrame").contentWindow.postMessage(userName, "*");
+            document.getElementById("consentButton").style.display = "none"; // Hide the consent button
+            document.getElementById("consentFrame").style.display = "block"; // Show the consent form iframe
         }
     </script>
 </body>
