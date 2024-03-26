@@ -14,21 +14,21 @@
             <input type="text" id="name" placeholder="Your Name">
         </div>
         <button id="consentButton" class="btn" onclick="showConsentForm()">Review Consent</button>
-        <br> <!-- Added line break here -->
-        <iframe id="consentFrame" src="forms/consentForm.html"></iframe> <!-- The consent form iframe -->
+        <br>
+        <iframe id="consentFrame" src="forms/consentForm.html"></iframe>
         <div id="waitingMessage" style="display:none;">
             <p>Please wait. Your provider will join the session shortly.</p>
         </div>
     </div>
 
     <script>
-        var userName; // Global variable to store the user's name
+        var userName;
 
         function showConsentForm() {
-            userName = document.getElementById("name").value; // Store the user's name
+            userName = document.getElementById("name").value;
             document.getElementById("consentButton").style.display = "none";
             document.getElementById("consentFrame").style.display = "block";
-            document.getElementById("consentFrame").contentWindow.postMessage(userName, "*"); // Pass name to consent frame
+            document.getElementById("consentFrame").contentWindow.postMessage(userName, "*");
         }
     </script>
 </body>
