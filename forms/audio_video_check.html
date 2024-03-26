@@ -54,6 +54,11 @@
         .btn:hover {
             background-color: #0056b3;
         }
+        #patientImage {
+            display: none;
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -61,15 +66,17 @@
     <div id="videoContainer">
         <video id="videoElement" autoplay playsinline muted></video>
         <div id="audioIndicator"></div>
+        <img id="patientImage" src="patient_image.jpg" alt="Patient" />
     </div>
-    <button id="testButton" class="btn" onclick="testMicrophone()">Test Audio and Video</button>
+    <button id="testButton" class="btn" onclick="testAudioAndVideo()">Test Audio and Video</button>
     <button id="proceedButton" class="btn" onclick="proceed()">Proceed</button>
 
     <script>
         let analyser;
         let audioIndicator;
+        let patientImage;
 
-        async function testMicrophone() {
+        async function testAudioAndVideo() {
             try {
                 const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
                 const videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
@@ -92,13 +99,17 @@
                     requestAnimationFrame(updateAudioIndicator);
                     analyser.getByteFrequencyData(dataArray);
                     const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
-                    const width = Math.max(0, Math.min(average, 255) / 2); // Limit width between 0 and 100
-                    audioIndicator.style.width = width + '%';
+                    const width = Math.max(0, Math.min(average, 255)); // Limit width between 0 and 255
+                    audioIndicator.style.width = (width * 2) + '%'; // Double the width
                 }
                 updateAudioIndicator();
 
                 const videoElement = document.getElementById('videoElement');
                 videoElement.srcObject = videoStream;
+
+                // Show patient image
+                patientImage = document.getElementById('patientImage');
+                patientImage.style.display = 'block';
 
             } catch (error) {
                 console.error('Error accessing media devices:', error);
