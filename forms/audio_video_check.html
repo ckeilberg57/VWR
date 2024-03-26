@@ -36,6 +36,9 @@
             background-color: green;
             transition: width 0.1s ease-in-out;
         }
+        .btn-container {
+            text-align: center; /* Center align buttons */
+        }
         .btn {
             display: inline-block;
             width: 45%; /* Adjust button width */
@@ -67,8 +70,10 @@
         <img id="patientImage" src="patientSmall.png" alt="Patient" />
         <div id="audioIndicator"></div>
     </div>
-    <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
-    <button id="proceedButton" class="btn" onclick="proceed()">Proceed</button>
+    <div class="btn-container">
+        <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
+        <button id="proceedButton" class="btn" onclick="proceed()">Proceed</button>
+    </div>
 
     <script>
         let analyser;
