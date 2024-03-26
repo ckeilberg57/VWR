@@ -83,6 +83,7 @@
         let patientImage;
         let originalWidth = 0; // Store original width of the audio indicator
         let confirmedButtonAdded = false; // Flag to track whether the confirmed button has been added
+        let joinButtonAdded = false; // Flag to track whether the join button has been added
 
         async function testAudioAndVideo() {
             try {
@@ -141,27 +142,37 @@
             confirmedButton.textContent = 'Confirmed';
             confirmedButton.onclick = function() {
                 alert('Audio and video confirmed!');
-                createJoinMeetingButton(); // Call function to create join meeting button
+                if (!joinButtonAdded) {
+                    addJoinButton();
+                    joinButtonAdded = true;
+                }
             };
             btnContainer.appendChild(confirmedButton);
         }
 
-        function createJoinMeetingButton() {
+        function addJoinButton() {
             const joinButtonDiv = document.getElementById('joinButtonDiv');
             const joinButton = document.createElement('button');
             joinButton.className = 'btn';
             joinButton.textContent = 'Join Video Session';
             joinButton.onclick = function() {
-                const name = document.getElementById('name').value.trim();
-                if (name === "") {
-                    alert("Please enter your name.");
-                    return;
-                }
-                const conferenceID = generateConferenceID();
-                const url = "https://example.com/webapp3/?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID);
-                window.open(url, "_blank");
+                joinMeeting();
             };
             joinButtonDiv.appendChild(joinButton);
+        }
+
+        function joinMeeting() {
+            var name = document.getElementById("name").value.trim();
+            if (name === "") {
+                alert("Please enter your name.");
+                return;
+            }
+            var conferenceID = generateConferenceID();
+            var url = "https://example.com/webapp3/?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID);
+            // Open the URL in a new tab/window
+            window.open(url, "_blank");
+            // Display waiting message
+            document.getElementById("waitingMessage").style.display = "block";
         }
 
         function generateConferenceID() {
