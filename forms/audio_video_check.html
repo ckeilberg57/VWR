@@ -15,8 +15,16 @@
         h1 {
             text-align: center;
         }
-        #deviceList {
+        #videoContainer {
+            margin: 0 auto;
+            width: 320px;
+            height: 240px;
+            border: 1px solid #ccc;
             margin-bottom: 20px;
+        }
+        video {
+            width: 100%;
+            height: 100%;
         }
         .btn {
             display: inline-block;
@@ -40,29 +48,43 @@
 </head>
 <body>
     <h1>Audio and Video Check</h1>
-    <div id="deviceList"></div>
+    <div id="videoContainer">
+        <video id="videoElement" autoplay playsinline muted></video>
+    </div>
     <button id="testButton" class="btn" onclick="testMicrophone()">Test Microphone</button>
     <button id="proceedButton" class="btn" onclick="proceed()">Proceed</button>
 
     <script>
         async function testMicrophone() {
             try {
-                const devices = await navigator.mediaDevices.enumerateDevices();
-                const audioDevices = devices.filter(device => device.kind === 'audioinput');
-                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const audioContext = new AudioContext();
+                const microphone = audioContext.createMediaStreamSource(stream);
+                const analyser = audioContext.createAnalyser();
+                microphone.connect(analyser);
 
-                const deviceListContainer = document.getElementById('deviceList');
-                deviceListContainer.innerHTML = '<h3>Available Microphones:</h3>';
-                audioDevices.forEach(device => {
-                    deviceListContainer.innerHTML += `<p>${device.label}</p>`;
-                });
+                // Display microphone levels
+                analyser.fftSize = 32;
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                const canvas = document.createElement('canvas');
+                const canvasContext = canvas.getContext('2d');
+                canvas.width = 320;
+                canvas.height = 50;
+                document.body.appendChild(canvas);
 
-                deviceListContainer.innerHTML += '<h3>Available Cameras:</h3>';
-                videoDevices.forEach(device => {
-                    deviceListContainer.innerHTML += `<p>${device.label}</p>`;
-                });
+                function draw() {
+                    requestAnimationFrame(draw);
+                    analyser.getByteFrequencyData(dataArray);
+                    const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
+                    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+                    canvasContext.fillStyle = 'green';
+                    canvasContext.fillRect(0, 0, average, canvas.height);
+                }
+                draw();
+
+                stream.getTracks().forEach(track => track.stop());
             } catch (error) {
-                console.error('Error enumerating devices:', error);
+                console.error('Error accessing microphone:', error);
             }
         }
 
