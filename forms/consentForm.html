@@ -70,6 +70,19 @@
             var userName = event.data;
             sessionStorage.setItem('userName', userName);
         }
+
+        function showAudioVideoCheck() {
+            // Display audio and video check iframe
+            var iframe = document.createElement("iframe");
+            iframe.src = "../audio_video_check.html"; // Adjust the path as needed
+            iframe.style.border = "1px solid #ccc";
+            iframe.style.width = "100%";
+            iframe.style.height = "400px";
+            document.body.appendChild(iframe);
+
+            // Hide the consent form
+            document.querySelector(".container").style.display = "none";
+        }
     </script>
 </body>
 </html>
