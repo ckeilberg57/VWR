@@ -10,15 +10,10 @@
     <div class="container">
         <h1>Virtual Waiting Room</h1>
         <div class="form-group">
-            <label for="name">Enter Your Name:</label>
-            <input type="text" id="name" placeholder="Your Name">
         </div>
         <button id="consentButton" class="btn" onclick="showConsentForm()">Review Consent</button>
         <br> <!-- Added line break here -->
         <iframe id="consentFrame" src="forms/consentForm.html"></iframe> <!-- The consent form iframe -->
-        <div id="waitingMessage" style="display:none;">
-            <p>Please wait. Your provider will join the session shortly.</p>
-        </div>
     </div>
 
     <script>
