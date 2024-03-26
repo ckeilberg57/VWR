@@ -147,14 +147,17 @@
         }
 
         function createJoinButton() {
-            const joinButtonDiv = document.getElementById('joinButtonDiv');
-            const name = document.getElementById('name').value.trim();
-            const conferenceID = generateConferenceID();
+            const joinButtonDiv = document.createElement('div');
+            joinButtonDiv.id = 'joinButtonDiv';
+            document.body.appendChild(joinButtonDiv);
+
             const joinButton = document.createElement('button');
             joinButton.className = 'btn';
             joinButton.textContent = 'Join Meeting';
             joinButton.onclick = function() {
-                const url = "https://example.com/webapp3/?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID);
+                const name = document.getElementById('name').value.trim();
+                const conferenceID = generateConferenceID();
+                const url = "https://example.com/webapp3/step-by-step?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID) + "&role=guest";
                 window.open(url, "_blank");
             };
             joinButtonDiv.appendChild(joinButton);
