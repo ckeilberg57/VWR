@@ -64,17 +64,11 @@
     </div>
 
     <script>
-        function showAudioVideoCheck() {
-            // Display audio and video check iframe
-            var iframe = document.createElement("iframe");
-            iframe.src = "audio_video_check.html";
-            iframe.style.border = "1px solid #ccc";
-            iframe.style.width = "100%";
-            iframe.style.height = "400px";
-            document.body.appendChild(iframe);
+        window.addEventListener("message", receiveName, false);
 
-            // Hide the consent form
-            document.querySelector(".container").style.display = "none";
+        function receiveName(event) {
+            var userName = event.data;
+            sessionStorage.setItem('userName', userName);
         }
     </script>
 </body>
