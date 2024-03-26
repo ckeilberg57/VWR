@@ -85,8 +85,7 @@
 
         async function testAudioAndVideo() {
             try {
-                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-                const videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
 
                 const audioContext = new AudioContext();
                 const microphone = audioContext.createMediaStreamSource(audioStream);
@@ -112,16 +111,15 @@
                     const width = Math.max(0, Math.min(average, 255)); // Limit width between 0 and 255
                     audioIndicator.style.width = (width * 2) + 'px'; // Double the width
 
-                    // Enable join button and change its color to green when audio and video are confirmed
-                    const joinButton = document.getElementById('joinButton');
-                    if (width > 0 && !joinButton.disabled) {
-                        joinButton.classList.add('green'); // Add 'green' class to change button color
+                    // If audio and video are confirmed, add "Confirmed" button
+                    if (width > 0 && document.getElementById('videoElement').videoWidth > 0) {
+                        addConfirmedButton();
                     }
                 }
                 updateAudioIndicator();
 
                 const videoElement = document.getElementById('videoElement');
-                videoElement.srcObject = videoStream;
+                videoElement.srcObject = audioStream;
                 videoElement.style.display = 'block'; // Show video element
 
                 // Hide patient image
@@ -129,22 +127,20 @@
                 patientImage.src = "images/patient.png"; // Set image source
                 patientImage.style.display = 'none';
 
-                // Enable join button once audio and video are confirmed
-                const joinButton = document.getElementById('joinButton');
-                joinButton.disabled = false;
-
-                // Add a new button labeled "Confirmed"
-                const confirmedButton = document.createElement('button');
-                confirmedButton.className = 'btn green';
-                confirmedButton.textContent = 'Confirmed';
-                confirmedButton.onclick = function() {
-                    alert('Audio and video confirmed!');
-                };
-                document.querySelector('.btn-container').appendChild(confirmedButton);
-
             } catch (error) {
                 console.error('Error accessing media devices:', error);
             }
+        }
+
+        function addConfirmedButton() {
+            const btnContainer = document.querySelector('.btn-container');
+            const confirmedButton = document.createElement('button');
+            confirmedButton.className = 'btn green';
+            confirmedButton.textContent = 'Confirmed';
+            confirmedButton.onclick = function() {
+                alert('Audio and video confirmed!');
+            };
+            btnContainer.appendChild(confirmedButton);
         }
     </script>
 </body>
