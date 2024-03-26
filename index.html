@@ -19,13 +19,18 @@
         <div id="waitingMessage" style="display:none;">
             <p>Please wait. Your provider will join the session shortly.</p>
         </div>
-        <div id="joinButtonDiv"></div> <!-- Placeholder for the join button -->
+        <div id="joinButtonDiv"></div> <!-- This div will contain the Join Meeting button -->
     </div>
 
     <script>
         function showConsentForm() {
             document.getElementById("consentButton").style.display = "none"; // Hide the consent button
             document.getElementById("consentFrame").style.display = "block"; // Show the consent form iframe
+        }
+
+        function generateConferenceID() {
+            // Generate a random 8-digit number
+            return "apptMD" + Math.floor(10000000 + Math.random() * 90000000);
         }
     </script>
 </body>
