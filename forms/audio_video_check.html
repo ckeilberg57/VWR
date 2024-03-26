@@ -58,30 +58,7 @@
         async function testMicrophone() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-                const audioContext = new AudioContext();
-                const microphone = audioContext.createMediaStreamSource(stream);
-                const analyser = audioContext.createAnalyser();
-                microphone.connect(analyser);
-
-                // Display microphone levels
-                analyser.fftSize = 32;
-                const dataArray = new Uint8Array(analyser.frequencyBinCount);
-                const canvas = document.createElement('canvas');
-                const canvasContext = canvas.getContext('2d');
-                canvas.width = 320;
-                canvas.height = 50;
-                document.body.appendChild(canvas);
-
-                function draw() {
-                    requestAnimationFrame(draw);
-                    analyser.getByteFrequencyData(dataArray);
-                    const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
-                    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-                    canvasContext.fillStyle = 'green';
-                    canvasContext.fillRect(0, 0, average, canvas.height);
-                }
-                draw();
-
+                
                 const videoElement = document.getElementById('videoElement');
                 videoElement.srcObject = stream;
 
