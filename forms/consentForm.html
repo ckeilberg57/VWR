@@ -23,6 +23,13 @@
         h1, p {
             text-align: center;
         }
+        img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -64,17 +71,10 @@
     </div>
 
     <script>
-        window.addEventListener("message", receiveName, false);
-
-        function receiveName(event) {
-            var userName = event.data;
-            sessionStorage.setItem('userName', userName);
-        }
-
         function showAudioVideoCheck() {
             // Display audio and video check iframe
             var iframe = document.createElement("iframe");
-            iframe.src = "../audio_video_check.html"; // Adjust the path as needed
+            iframe.src = "audio_video_check.html";
             iframe.style.border = "1px solid #ccc";
             iframe.style.width = "100%";
             iframe.style.height = "400px";
