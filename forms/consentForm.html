@@ -30,6 +30,26 @@
             height: auto;
             margin-bottom: 20px;
         }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn.green {
+            background-color: #28a745;
+        }
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -47,13 +67,21 @@
         <p>
             Please note that failure to comply with these terms may result in the termination of the consultation.
         </p>
-        <button id="complyButton" class="btn" onclick="closeIframe()">I comply, submit</button>
+        <button id="complyButton" class="btn" onclick="showAudioVideoCheck()">I comply, submit</button>
     </div>
 
     <script>
-        function closeIframe() {
-            // Close the iframe
-            parent.document.getElementById('consentFrame').remove();
+        function showAudioVideoCheck() {
+            // Display audio and video check iframe
+            var iframe = document.createElement("iframe");
+            iframe.src = "audio_video_check.html";
+            iframe.style.border = "1px solid #ccc";
+            iframe.style.width = "100%";
+            iframe.style.height = "400px";
+            document.body.appendChild(iframe);
+
+            // Hide the consent form
+            document.querySelector(".container").style.display = "none";
         }
     </script>
 </body>
