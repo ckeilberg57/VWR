@@ -72,7 +72,6 @@
     </div>
     <div class="btn-container">
         <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
-        <button id="proceedButton" class="btn" onclick="proceed()">Proceed</button>
     </div>
 
     <script>
@@ -124,11 +123,6 @@
             } catch (error) {
                 console.error('Error accessing media devices:', error);
             }
-        }
-
-        async function proceed() {
-            // Do any additional checks or actions before proceeding to the meeting
-            alert("You're ready to proceed to the meeting!");
         }
     </script>
 </body>
