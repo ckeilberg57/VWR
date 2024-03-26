@@ -141,32 +141,11 @@
             confirmedButton.textContent = 'Confirmed';
             confirmedButton.onclick = function() {
                 alert('Audio and video confirmed!');
-                createJoinButton();
+                createJoinButton(); // Create the Join Meeting button when confirmed
             };
             btnContainer.appendChild(confirmedButton);
         }
 
         function createJoinButton() {
-            const joinButtonDiv = document.createElement('div');
-            joinButtonDiv.id = 'joinButtonDiv';
-            document.body.appendChild(joinButtonDiv);
-
-            const joinButton = document.createElement('button');
-            joinButton.className = 'btn';
-            joinButton.textContent = 'Join Meeting';
-            joinButton.onclick = function() {
-                const name = document.getElementById('name').value.trim();
-                const conferenceID = generateConferenceID();
-                const url = "https://example.com/webapp3/step-by-step?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID) + "&role=guest";
-                window.open(url, "_blank");
-            };
-            joinButtonDiv.appendChild(joinButton);
-        }
-
-        function generateConferenceID() {
-            // Generate a random 8-digit number
-            return "apptMD" + Math.floor(10000000 + Math.random() * 90000000);
-        }
-    </script>
-</body>
-</html>
+            const name = document.getElementById("name").value.trim();
+           
