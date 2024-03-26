@@ -19,36 +19,12 @@
         <div id="waitingMessage" style="display:none;">
             <p>Please wait. Your provider will join the session shortly.</p>
         </div>
-        <div id="joinButtonDiv">
-            <button id="joinButton" class="btn" onclick="joinMeeting()" disabled>Join Meeting</button>
-        </div>
     </div>
 
     <script>
         function showConsentForm() {
             document.getElementById("consentButton").style.display = "none"; // Hide the consent button
             document.getElementById("consentFrame").style.display = "block"; // Show the consent form iframe
-        }
-
-        function joinMeeting() {
-            var name = document.getElementById("name").value.trim();
-            if (name === "") {
-                alert("Please enter your name.");
-                return;
-            }
-            var conferenceID = generateConferenceID();
-            var url = "https://example.com/webapp3/step-by-step?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID) + "&role=guest";
-            // Open the URL in a new tab/window
-            window.open(url, "_blank");
-            // Display waiting message
-            document.getElementById("waitingMessage").style.display = "block";
-            // Disable the join button after clicking
-            document.getElementById("joinButton").disabled = true;
-        }
-
-        function generateConferenceID() {
-            // Generate a random 8-digit number
-            return "apptMD" + Math.floor(10000000 + Math.random() * 90000000);
         }
     </script>
 </body>
