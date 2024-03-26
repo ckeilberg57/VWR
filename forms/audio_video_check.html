@@ -83,7 +83,6 @@
         let patientImage;
         let originalWidth = 0; // Store original width of the audio indicator
         let confirmedButtonAdded = false; // Flag to track whether the confirmed button has been added
-        let joinButtonAdded = false; // Flag to track whether the join button has been added
 
         async function testAudioAndVideo() {
             try {
@@ -142,37 +141,27 @@
             confirmedButton.textContent = 'Confirmed';
             confirmedButton.onclick = function() {
                 alert('Audio and video confirmed!');
-                if (!joinButtonAdded) {
-                    addJoinButton();
-                    joinButtonAdded = true;
-                }
+                createJoinButton();
             };
             btnContainer.appendChild(confirmedButton);
         }
 
-        function addJoinButton() {
+        function createJoinButton() {
             const joinButtonDiv = document.getElementById('joinButtonDiv');
+            const name = document.getElementById('name').value.trim();
+            const conferenceID = generateConferenceID();
             const joinButton = document.createElement('button');
             joinButton.className = 'btn';
-            joinButton.textContent = 'Join Video Session';
+            joinButton.textContent = 'Join Meeting';
             joinButton.onclick = function() {
-                joinMeeting();
+                const url = "https://example.com/webapp3/?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID);
+                window.open(url, "_blank");
             };
             joinButtonDiv.appendChild(joinButton);
         }
 
-        function joinMeeting() {
-            var name = document.getElementById("name").value.trim();
-            if (name === "") {
-                alert("Please enter your name.");
-                return;
-            }
-            var conferenceID = generateConferenceID();
-            var url = "https://example.com/webapp3/?name=" + encodeURIComponent(name) + "&conference=" + encodeURIComponent(conferenceID);
-            window.open(url, "_blank");
-        }
-
         function generateConferenceID() {
+            // Generate a random 8-digit number
             return "apptMD" + Math.floor(10000000 + Math.random() * 90000000);
         }
     </script>
