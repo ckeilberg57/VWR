@@ -83,6 +83,13 @@
             // Hide the consent form
             document.querySelector(".container").style.display = "none";
         }
+        window.addEventListener("message", receiveName, false);
+
+        function receiveName(event) {
+            var userName = event.data;
+            // Pass the name to the audio and video check page
+            sessionStorage.setItem('userName', userName);
+        }
     </script>
 </body>
 </html>
