@@ -64,7 +64,7 @@
     <h1>Audio and Video Check</h1>
     <div id="videoContainer">
         <video id="videoElement" autoplay playsinline muted style="display: none;"></video>
-        <img id="patientImage" src="images/patient.png" alt="Patient" />
+        <img id="patientImage" src="" alt="Patient" />
         <div id="audioIndicator"></div>
     </div>
     <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
@@ -113,6 +113,7 @@
 
                 // Hide patient image
                 patientImage = document.getElementById('patientImage');
+                patientImage.src = "images/patient.png"; // Set image source
                 patientImage.style.display = 'none';
 
             } catch (error) {
