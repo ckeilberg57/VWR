@@ -69,7 +69,7 @@
         </div>
         <div class="form-group">
             <label for="consentDocument">Consent Document:</label><br>
-            <button id="consentDocument" class="btn" onclick="reviewConsent()">Review Consent</button>
+            <iframe id="consentFrame" src="consent.html" width="100%" height="400px" style="border: 1px solid #ccc;"></iframe>
         </div>
         <div class="form-group">
             <label for="audiovideoCheck">Audio & Video Check:</label><br>
@@ -87,16 +87,6 @@
         function generateConferenceID() {
             // Generate a random 8-digit number
             return "apptMD" + Math.floor(10000000 + Math.random() * 90000000);
-        }
-
-        function reviewConsent() {
-            // Open consent document in iframe
-            var consentFrame = document.createElement("iframe");
-            consentFrame.src = "https://example.com/consent.txt";
-            consentFrame.width = "100%";
-            consentFrame.height = "400px";
-            consentFrame.style.border = "1px solid #ccc";
-            document.body.appendChild(consentFrame);
         }
 
         function audioVideoCheck() {
