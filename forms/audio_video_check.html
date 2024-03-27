@@ -134,27 +134,43 @@
             }
         }
 
-        function addConfirmedButton() {
-            const btnContainer = document.querySelector('.btn-container');
-            const confirmedButton = document.createElement('button');
-            confirmedButton.className = 'btn green';
-            confirmedButton.textContent = 'Confirmed';
-            confirmedButton.onclick = function() {
-                // Get the name entered by the user
-                const name = prompt("Please enter your name:");
-                if (name !== null && name.trim() !== "") {
-                    // Generate random conference number
-                    const conference = "apptMD" + Math.floor(1000000000 + Math.random() * 9000000000);
-                    // Construct the URL with name and conference parameters
-                    const url = `https://cklab-edges.ck-collab-engtest.com/webapp3/?name=${encodeURIComponent(name)}&conference=${conference}&role=guest&join=1`;
-                    // Redirect to the constructed URL
-                    window.top.location.replace(url);
-                } else {
-                    alert("Name cannot be empty. Please enter your name.");
-                }
-            };
-            btnContainer.appendChild(confirmedButton);
-        }
+    function addConfirmedButton() {
+        const btnContainer = document.querySelector('.btn-container');
+        const confirmedButton = document.createElement('button');
+        confirmedButton.className = 'btn green';
+        confirmedButton.textContent = 'Confirmed';
+        confirmedButton.onclick = function() {
+            // Get the name entered by the user
+            const name = prompt("Please enter your name:");
+            if (name !== null && name.trim() !== "") {
+                // Generate random conference number
+                const conference = "apptMD" + Math.floor(1000000000 + Math.random() * 9000000000);
+                // Construct the URL with name and conference parameters
+                const url = `https://cklab-edges.ck-collab-engtest.com/webapp3/?name=${encodeURIComponent(name)}&conference=${conference}&role=guest&join=1`;
+                
+                // Store the URL in a temporary file
+                storeURLTemporarily(url);
+                
+                // Redirect to the constructed URL
+                window.top.location.replace(url);
+            } else {
+                alert("Name cannot be empty. Please enter your name.");
+            }
+        };
+        btnContainer.appendChild(confirmedButton);
+    }
+    
+    function storeURLTemporarily(url) {
+        // Create a Blob containing the URL data
+        const blob = new Blob([url], { type: 'text/plain' });
+    
+        // Create a temporary file URL
+        const tempFileURL = URL.createObjectURL(blob);
+    
+        // Save the temporary file URL for future retrieval
+        localStorage.setItem('tempURL', tempFileURL);
+    }
+
     </script>
 </body>
 </html>
