@@ -14,10 +14,19 @@
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center; /* Center align the text within the container */
   }
-  h1 {
-      text-align: center;
+  
+  h2 {
+      display: block; /* Set display to block */
+      margin: 20px auto; /* Center horizontally with top and bottom margin */
   }
+  
+  .btn {
+      display: block; /* Set display to block */
+      margin: 0 auto 20px auto; /* Center horizontally with top and bottom margin */
+  }
+
   .form-group {
       margin-bottom: 20px;
   }
