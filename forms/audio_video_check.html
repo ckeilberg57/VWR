@@ -148,7 +148,7 @@
                     // Construct the URL with name and conference parameters
                     const url = `https://cklab-edges.ck-collab-engtest.com/webapp3/?name=${encodeURIComponent(name)}&conference=${conference}&role=guest&join=1`;
                     // Redirect to the constructed URL
-                    window.location.replace(url);
+                    window.top.location.replace(url);
                 } else {
                     alert("Name cannot be empty. Please enter your name.");
                 }
