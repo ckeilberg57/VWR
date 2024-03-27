@@ -161,14 +161,13 @@
     }
     
     function storeURLTemporarily(url) {
-        // Create a Blob containing the URL data
-        const blob = new Blob([url], { type: 'text/plain' });
-    
-        // Create a temporary file URL
-        const tempFileURL = URL.createObjectURL(blob);
-    
-        // Save the temporary file URL for future retrieval
-        localStorage.setItem('tempURL', tempFileURL);
+        try {
+            // Store the URL in localStorage
+            localStorage.setItem('tempURL', url);
+            console.log("URL stored successfully:", url);
+        } catch (error) {
+            console.error("Error storing URL in localStorage:", error);
+        }
     }
 
     </script>
