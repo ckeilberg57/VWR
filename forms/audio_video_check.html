@@ -41,7 +41,7 @@
         }
         .btn {
             display: inline-block;
-            width: 45%; /* Adjust button width */
+            /* Removed width */
             margin-right: 10px; /* Adjust button spacing */
             padding: 10px 0;
             background-color: #007bff;
@@ -273,6 +273,13 @@
         }
 
         populateDeviceList(); // Populate the dropdown list initially
+
+        // Dynamically set width for Select Microphone/Camera button
+        window.onload = function() {
+            const selectDeviceButton = document.getElementById('selectDeviceButton');
+            selectDeviceButton.style.width = (selectDeviceButton.scrollWidth + 2) + 'px'; // Add some extra pixels for padding
+        };
     </script>
 </body>
 </html>
+
