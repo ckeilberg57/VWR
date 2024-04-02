@@ -65,12 +65,11 @@
             height: 100%;
         }
         .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .dropdown-content {
-            display: none;
             position: absolute;
+            top: calc(100% + 10px); /* Position below the video container */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Center horizontally */
+            display: none;
             background-color: #f9f9f9;
             min-width: 160px;
             z-index: 1;
@@ -85,9 +84,6 @@
         .dropdown-content a:hover {
             background-color: #f1f1f1;
         }
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -101,13 +97,12 @@
         <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
         <!-- The Select Microphone/Camera button will only be shown when the Confirmed button is present -->
         <div id="confirmedButtonContainer" style="display: none;">
-            <div class="dropdown">
-                <button id="selectDeviceButton" class="btn" onclick="showDropdown()">Select Microphone/Camera</button>
-                <div class="dropdown-content" id="dropdown">
+            <div class="dropdown" id="dropdown">
+                <div class="dropdown-content">
                     <label for="audioSelect">Choose microphone:</label>
-                    <select id="audioSelect" onchange="selectMicrophone(this.value)"></select><br>
+                    <select id="audioSelect"></select><br>
                     <label for="videoSelect">Choose camera:</label>
-                    <select id="videoSelect" onchange="selectCamera(this.value)"></select>
+                    <select id="videoSelect"></select>
                 </div>
             </div>
             <div style="margin-top: 10px;"></div> <!-- Add space before the Confirmed button -->
@@ -177,47 +172,6 @@
             } catch (error) {
                 console.error('Error accessing media devices:', error);
             }
-        }
-
-        async function selectMicrophone(deviceId) {
-            try {
-                const constraints = {
-                    audio: { deviceId: { exact: deviceId } },
-                    video: true
-                };
-
-                const selectedStream = await navigator.mediaDevices.getUserMedia(constraints);
-                currentStream = selectedStream;
-
-                const videoElement = document.getElementById('videoElement');
-                videoElement.srcObject = selectedStream;
-
-            } catch (error) {
-                console.error('Error selecting microphone:', error);
-            }
-        }
-
-        async function selectCamera(deviceId) {
-            try {
-                const constraints = {
-                    audio: true,
-                    video: { deviceId: { exact: deviceId } }
-                };
-
-                const selectedStream = await navigator.mediaDevices.getUserMedia(constraints);
-                currentStream = selectedStream;
-
-                const videoElement = document.getElementById('videoElement');
-                videoElement.srcObject = selectedStream;
-
-            } catch (error) {
-                console.error('Error selecting camera:', error);
-            }
-        }
-
-        function showDropdown() {
-            const dropdown = document.getElementById('dropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block'; // Toggle dropdown visibility
         }
 
         async function populateDeviceList() {
@@ -294,7 +248,19 @@
             const selectDeviceButton = document.getElementById('selectDeviceButton');
             selectDeviceButton.style.width = (selectDeviceButton.scrollWidth + 2) + 'px'; // Add some extra pixels for padding
         };
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdown');
+            const selectDeviceButton = document.getElementById('selectDeviceButton');
+            if (!dropdown.contains(event.target) && event.target !== selectDeviceButton) {
+                dropdown.style.display = 'none'; // Hide the dropdown if clicked outside
+            }
+        });
+
+        function showDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block'; // Toggle dropdown visibility
+        }
     </script>
 </body>
 </html>
-
