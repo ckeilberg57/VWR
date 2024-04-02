@@ -75,6 +75,7 @@
     </div>
     <div class="btn-container">
         <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
+        <button id="selectDeviceButton" class="btn" onclick="selectDevice()">Select Microphone/Camera</button>
     </div>
 
     <script>
@@ -83,10 +84,13 @@
         let patientImage;
         let originalWidth = 0; // Store original width of the audio indicator
         let confirmedButtonAdded = false; // Flag to track whether the confirmed button has been added
+        let currentStream;
 
         async function testAudioAndVideo() {
             try {
                 const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+
+                currentStream = audioStream;
 
                 const audioContext = new AudioContext();
                 const microphone = audioContext.createMediaStreamSource(audioStream);
@@ -133,6 +137,27 @@
 
             } catch (error) {
                 console.error('Error accessing media devices:', error);
+            }
+        }
+
+        async function selectDevice() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const audioDevices = devices.filter(device => device.kind === 'audioinput');
+                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+                const selectedDevice = await navigator.mediaDevices.getUserMedia({
+                    audio: { deviceId: audioDevices[1].deviceId },
+                    video: { deviceId: videoDevices[0].deviceId }
+                });
+
+                currentStream = selectedDevice;
+
+                const videoElement = document.getElementById('videoElement');
+                videoElement.srcObject = selectedDevice;
+
+            } catch (error) {
+                console.error('Error selecting device:', error);
             }
         }
 
