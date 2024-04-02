@@ -84,55 +84,57 @@
         let originalWidth = 0; // Store original width of the audio indicator
         let confirmedButtonAdded = false; // Flag to track whether the confirmed button has been added
 
-        async function testAudioAndVideo() {
-            try {
-                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+async function testAudioAndVideo() {
+    try {
+        const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
 
-                const audioContext = new AudioContext();
-                const microphone = audioContext.createMediaStreamSource(audioStream);
-                analyser = audioContext.createAnalyser();
-                microphone.connect(analyser);
+        const audioContext = new AudioContext();
+        const microphone = audioContext.createMediaStreamSource(audioStream);
+        analyser = audioContext.createAnalyser();
+        microphone.connect(analyser);
 
-                // Configure the analyser node
-                analyser.fftSize = 32;
-                const bufferLength = analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
+        // Configure the analyser node
+        analyser.fftSize = 32;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
 
-                // Create audio indicator element
-                audioIndicator = document.getElementById('audioIndicator');
-                if (originalWidth === 0) {
-                    originalWidth = audioIndicator.clientWidth; // Store original width
-                }
+        // Create audio indicator element
+        audioIndicator = document.getElementById('audioIndicator');
+        if (originalWidth === 0) {
+            originalWidth = audioIndicator.clientWidth; // Store original width
+        }
 
-                // Update the audio indicator continuously
-                function updateAudioIndicator() {
-                    requestAnimationFrame(updateAudioIndicator);
-                    analyser.getByteFrequencyData(dataArray);
-                    const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
-                    const width = Math.max(0, Math.min(average, 255)); // Limit width between 0 and 255
-                    audioIndicator.style.width = (width * 2) + 'px'; // Double the width
+        // Update the audio indicator continuously
+        function updateAudioIndicator() {
+            requestAnimationFrame(updateAudioIndicator);
+            analyser.getByteFrequencyData(dataArray);
+            const average = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
+            const width = Math.max(0, Math.min(average, 255)); // Limit width between 0 and 255
+            audioIndicator.style.width = (width * 2) + 'px'; // Double the width
 
-                    // If audio and video are confirmed and the button hasn't been added yet, add "Confirmed" button
-                    if (width > 0 && document.getElementById('videoElement').videoWidth > 0 && !confirmedButtonAdded) {
-                        addConfirmedButton();
-                        confirmedButtonAdded = true; // Set the flag to true
-                    }
-                }
-                updateAudioIndicator();
-
-                const videoElement = document.getElementById('videoElement');
-                videoElement.srcObject = audioStream;
-                videoElement.style.display = 'block'; // Show video element
-
-                // Hide patient image
-                patientImage = document.getElementById('patientImage');
-                patientImage.src = "images/patient.png"; // Set image source
-                patientImage.style.display = 'none';
-
-            } catch (error) {
-                console.error('Error accessing media devices:', error);
+            // If audio and video are confirmed and the button hasn't been added yet, add "Confirmed" button
+            if (width > 0 && document.getElementById('videoElement').videoWidth > 0 && !confirmedButtonAdded) {
+                addConfirmedButton();
+                confirmedButtonAdded = true; // Set the flag to true
+                // Hide the test button
+                document.getElementById('testButton').style.display = 'none';
             }
         }
+        updateAudioIndicator();
+
+        const videoElement = document.getElementById('videoElement');
+        videoElement.srcObject = audioStream;
+        videoElement.style.display = 'block'; // Show video element
+
+        // Hide patient image
+        patientImage = document.getElementById('patientImage');
+        patientImage.src = "images/patient.png"; // Set image source
+        patientImage.style.display = 'none';
+
+    } catch (error) {
+        console.error('Error accessing media devices:', error);
+    }
+}
 
     function addConfirmedButton() {
         const btnContainer = document.querySelector('.btn-container');
