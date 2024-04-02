@@ -65,21 +65,25 @@
             height: 100%;
         }
         .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
             display: none;
             position: absolute;
-            top: 30px;
-            left: 0;
             background-color: #f9f9f9;
             min-width: 160px;
             z-index: 1;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         }
-        .dropdown-content {
-            display: none;
-            position: relative;
+        .dropdown-content a {
+            color: black;
             padding: 12px 16px;
-            background-color: white;
-            border: 1px solid #ddd;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
         }
         .dropdown:hover .dropdown-content {
             display: block;
@@ -97,15 +101,17 @@
         <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
         <!-- The Select Microphone/Camera button will only be shown when the Confirmed button is present -->
         <div id="confirmedButtonContainer" style="display: none;">
-            <button id="selectDeviceButton" class="btn" onclick="showDropdown()">Select Microphone/Camera</button>
-            <div class="dropdown" id="dropdown">
-                <div class="dropdown-content">
+            <div class="dropdown">
+                <button id="selectDeviceButton" class="btn" onclick="showDropdown()">Select Microphone/Camera</button>
+                <div class="dropdown-content" id="dropdown">
                     <label for="audioSelect">Choose microphone:</label>
                     <select id="audioSelect"></select><br>
                     <label for="videoSelect">Choose camera:</label>
                     <select id="videoSelect"></select>
                 </div>
             </div>
+            <div style="margin-top: 10px;"></div> <!-- Add space before the Confirmed button -->
+            <button id="confirmedButton" class="btn green" style="display: none;">Confirmed</button>
         </div>
     </div>
 
