@@ -105,9 +105,9 @@
                 <button id="selectDeviceButton" class="btn" onclick="showDropdown()">Select Microphone/Camera</button>
                 <div class="dropdown-content" id="dropdown">
                     <label for="audioSelect">Choose microphone:</label>
-                    <select id="audioSelect"></select><br>
+                    <select id="audioSelect" onchange="selectMicrophone(this.value)"></select><br>
                     <label for="videoSelect">Choose camera:</label>
-                    <select id="videoSelect"></select>
+                    <select id="videoSelect" onchange="selectCamera(this.value)"></select>
                 </div>
             </div>
             <div style="margin-top: 10px;"></div> <!-- Add space before the Confirmed button -->
@@ -179,24 +179,39 @@
             }
         }
 
-        async function selectDevice() {
+        async function selectMicrophone(deviceId) {
             try {
-                const devices = await navigator.mediaDevices.enumerateDevices();
-                const audioDevices = devices.filter(device => device.kind === 'audioinput');
-                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+                const constraints = {
+                    audio: { deviceId: { exact: deviceId } },
+                    video: true
+                };
 
-                const selectedDevice = await navigator.mediaDevices.getUserMedia({
-                    audio: { deviceId: audioDevices[1].deviceId },
-                    video: { deviceId: videoDevices[0].deviceId }
-                });
-
-                currentStream = selectedDevice;
+                const selectedStream = await navigator.mediaDevices.getUserMedia(constraints);
+                currentStream = selectedStream;
 
                 const videoElement = document.getElementById('videoElement');
-                videoElement.srcObject = selectedDevice;
+                videoElement.srcObject = selectedStream;
 
             } catch (error) {
-                console.error('Error selecting device:', error);
+                console.error('Error selecting microphone:', error);
+            }
+        }
+
+        async function selectCamera(deviceId) {
+            try {
+                const constraints = {
+                    audio: true,
+                    video: { deviceId: { exact: deviceId } }
+                };
+
+                const selectedStream = await navigator.mediaDevices.getUserMedia(constraints);
+                currentStream = selectedStream;
+
+                const videoElement = document.getElementById('videoElement');
+                videoElement.srcObject = selectedStream;
+
+            } catch (error) {
+                console.error('Error selecting camera:', error);
             }
         }
 
@@ -282,3 +297,4 @@
     </script>
 </body>
 </html>
+
