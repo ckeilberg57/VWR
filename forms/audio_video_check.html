@@ -94,6 +94,7 @@
         <div id="audioIndicator"></div>
     </div>
     <div class="btn-container">
+        <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
         <!-- The Select Microphone/Camera button will only be shown when the Confirmed button is present -->
         <div id="confirmedButtonContainer" style="display: none;">
             <button id="selectDeviceButton" class="btn" onclick="showDropdown()">Select Microphone/Camera</button>
@@ -152,6 +153,8 @@
                         confirmedButtonAdded = true; // Set the flag to true
                         // Show the container with Select Microphone/Camera button
                         document.getElementById('confirmedButtonContainer').style.display = 'block';
+                        // Hide the test button
+                        document.getElementById('testButton').style.display = 'none';
                     }
                 }
                 updateAudioIndicator();
