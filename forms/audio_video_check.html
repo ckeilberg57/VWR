@@ -64,6 +64,26 @@
             width: 100%;
             height: 100%;
         }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            z-index: 1;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        }
+        .dropdown-content {
+            display: none;
+            position: relative;
+            padding: 12px 16px;
+            background-color: white;
+            border: 1px solid #ddd;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -74,8 +94,18 @@
         <div id="audioIndicator"></div>
     </div>
     <div class="btn-container">
-        <button id="testButton" class="btn" onclick="testAudioAndVideo()">Enable Local Audio and Video Test</button>
-        <button id="selectDeviceButton" class="btn" onclick="selectDevice()">Select Microphone/Camera</button>
+        <!-- The Select Microphone/Camera button will only be shown when the Confirmed button is present -->
+        <div id="confirmedButtonContainer" style="display: none;">
+            <button id="selectDeviceButton" class="btn" onclick="showDropdown()">Select Microphone/Camera</button>
+            <div class="dropdown" id="dropdown">
+                <div class="dropdown-content">
+                    <label for="audioSelect">Choose microphone:</label>
+                    <select id="audioSelect"></select><br>
+                    <label for="videoSelect">Choose camera:</label>
+                    <select id="videoSelect"></select>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -120,8 +150,8 @@
                     if (width > 0 && document.getElementById('videoElement').videoWidth > 0 && !confirmedButtonAdded) {
                         addConfirmedButton();
                         confirmedButtonAdded = true; // Set the flag to true
-                        // Hide the test button
-                        document.getElementById('testButton').style.display = 'none';
+                        // Show the container with Select Microphone/Camera button
+                        document.getElementById('confirmedButtonContainer').style.display = 'block';
                     }
                 }
                 updateAudioIndicator();
@@ -161,6 +191,42 @@
             }
         }
 
+        function showDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = 'block';
+        }
+
+        async function populateDeviceList() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const audioDevices = devices.filter(device => device.kind === 'audioinput');
+                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+                const audioSelect = document.getElementById('audioSelect');
+                const videoSelect = document.getElementById('videoSelect');
+
+                audioSelect.innerHTML = '';
+                videoSelect.innerHTML = '';
+
+                audioDevices.forEach(device => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `Microphone ${audioSelect.options.length + 1}`;
+                    audioSelect.appendChild(option);
+                });
+
+                videoDevices.forEach(device => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `Camera ${videoSelect.options.length + 1}`;
+                    videoSelect.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error('Error populating device list:', error);
+            }
+        }
+
         function addConfirmedButton() {
             const btnContainer = document.querySelector('.btn-container');
             const confirmedButton = document.createElement('button');
@@ -196,6 +262,8 @@
                 console.error("Error storing URL in localStorage:", error);
             }
         }
+
+        populateDeviceList(); // Populate the dropdown list initially
     </script>
 </body>
 </html>
